@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30011.22
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PolishValidators", "PolishValidators\PolishValidators.csproj", "{5B6E1015-4FC2-45BD-98EA-1DC664D1B0C3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PolishValidators.UnitTests", "PolishValidators.UnitTests\PolishValidators.UnitTests.csproj", "{97410CFC-EC5C-4D45-A809-2012CA042275}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5B6E1015-4FC2-45BD-98EA-1DC664D1B0C3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5B6E1015-4FC2-45BD-98EA-1DC664D1B0C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5B6E1015-4FC2-45BD-98EA-1DC664D1B0C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5B6E1015-4FC2-45BD-98EA-1DC664D1B0C3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{97410CFC-EC5C-4D45-A809-2012CA042275}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{97410CFC-EC5C-4D45-A809-2012CA042275}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{97410CFC-EC5C-4D45-A809-2012CA042275}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{97410CFC-EC5C-4D45-A809-2012CA042275}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {D6A2906B-8A00-45DB-BBCA-F0F71F7248A4}
+	EndGlobalSection
+EndGlobal
