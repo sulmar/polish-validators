@@ -43,3 +43,9 @@ public class CustomValidator : ValidatorBase
 ~~~
 
 Good luck :)
+
+
+## Route constraints 
+
+If you are looking for route constraints for MVC or Razor Pages projects then I invite you my another project using PolishValidators library:
+https://github.com/sulmar/dotnet-core-routecontraint-polish-validators
