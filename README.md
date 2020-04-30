@@ -1,5 +1,5 @@
 # Description
-Library for validation of Polish NIP, PESEL, REGON.
+Library for validation of Polish NIP, PESEL, REGON for C# (.NET Standard)
 
 
 # Installation
