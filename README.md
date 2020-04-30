@@ -1,18 +1,22 @@
-# Description
+# Polish Validators for C#
+Most validation algorithms are published separate. They differ only in weights and checksum function.
+That's why I decided to write a simple implementation for C# using **Template Method** design pattern.
+
+## Description
 Library for validation of Polish NIP, PESEL, REGON for C# (.NET Standard)
 
 
-# Installation
+## Installation
 ~~~ 
 Install-Package PolishValidators
 ~~~
 
-# Features
+## Features
 - PESEL validation
 - NIP validation
 - REGON validation
 
-# Usage
+## Usage
 
 ~~~ csharp
 IValidator validator = new PeselValidator();
@@ -24,9 +28,9 @@ IValidator validator = new NipValidator();
 bool result = validator.IsValid("9531204591");
 ~~~
 
-# Custom Validator
+## Custom Validator
 
-You can easily create a new validator thanks **Template Method** design pattern. 
+You can easily create a new validator. 
 Just use abstract class _ValidatorBase_ and override _Weights_ and sum control function like this:
 
 ~~~ csharp
