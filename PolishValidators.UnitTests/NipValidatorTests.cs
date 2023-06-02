@@ -9,10 +9,7 @@ namespace PolishValidators.UnitTests
     {
         private readonly IValidator validator;
 
-        public NipValidatorTests()
-        {
-            validator = new NipValidator();
-        }
+        public NipValidatorTests() => validator = new NipValidator();
 
         [Theory]
         [InlineData("3623981230", true)]
@@ -20,7 +17,7 @@ namespace PolishValidators.UnitTests
         [InlineData("9542223907", true)]
         [InlineData("9542223901", false)]
         [InlineData("5252438106", true)]
-        [InlineData("5851404935", true)]
+        [InlineData("5851404935", true)]                
         public void IsValid_ValidFormat_ReturnsStatus(string number, bool expected)
         {
             bool result = validator.IsValid(number);
@@ -36,16 +33,16 @@ namespace PolishValidators.UnitTests
             Assert.Throws<FormatException>(() => validator.IsValid("AAA954222390"));
         }
 
-        [Fact]
-        public void IsValid_InvalidLength_ThrowsFormatException()
-        {
-            int Length = 10;
-
+        [Theory]
+        [InlineData("123")]
+        [InlineData("1234")]
+        [InlineData("12345")]
+        [InlineData("95312045911")]
+        public void IsValid_InvalidLength_ThrowsFormatException(string number)
+        {                        
+            var exception = Assert.Throws<FormatException>(() => validator.IsValid(number));
             
-            var exception = Assert.Throws<FormatException>(() => validator.IsValid("95312045911"));
-
-            
-            Assert.Equal($"Number must have {Length} digits", exception.Message);
+            Assert.Equal($"Number must have 10 digits", exception.Message);
             
         }
     }
