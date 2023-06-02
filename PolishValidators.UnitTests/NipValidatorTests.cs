@@ -35,5 +35,18 @@ namespace PolishValidators.UnitTests
             Assert.Throws<FormatException>(() => validator.IsValid("9542223909999"));
             Assert.Throws<FormatException>(() => validator.IsValid("AAA954222390"));
         }
+
+        [Fact]
+        public void IsValid_InvalidLength_ThrowsFormatException()
+        {
+            int Length = 10;
+
+            
+            var exception = Assert.Throws<FormatException>(() => validator.IsValid("95312045911"));
+
+            
+            Assert.Equal($"Number must have {Length} digits", exception.Message);
+            
+        }
     }
 }

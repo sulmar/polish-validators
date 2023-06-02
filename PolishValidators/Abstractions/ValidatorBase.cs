@@ -6,52 +6,44 @@ namespace Validators.Abstractions
     public abstract class ValidatorBase : IValidator
     {
         protected abstract byte[] Weights { get; }
+        private int Length => Weights.Length + 1;
 
         protected abstract int CheckControl(int sumControl);
 
-        private byte[] ToByteArray(string input) => input
-                                                    .ToCharArray()
+        private byte[] ToByteArray(string number) => number                                                    
                                                     .Select(c => byte.Parse(c.ToString()))
                                                     .ToArray();
 
         public bool IsValid(string number)
         {
-            if (!number.All(Char.IsDigit))
+            if (!number.All(char.IsDigit))
             {
                 throw new FormatException($"Number must have only digits");
             }
 
-            if (number.Length != Weights.Length + 1)
+            if (number.Length != Length)
             {
-                throw new FormatException($"Number must have {Weights.Length} digits");
-            }
-
-            int offset = 0;
-            if (number.Length == 7 || number.Length == 9)
-            {
-                offset = 9 - number.Length;
+                throw new FormatException($"Number must have {Length} digits");
             }
 
             byte[] numbers = ToByteArray(number);
 
-            int controlSum = CalculateSumControl(numbers, this.Weights, offset);
+            int controlSum = CalculateSumControl(numbers, Weights);
 
-            int controlNum = CheckControl(controlSum);
+            int controlDigit = CheckControl(controlSum);
 
-            if (controlNum == 10)
-            {
-                controlNum = 0;
-            }
+            if (controlDigit == 10) controlDigit = 0;
 
-            return controlNum == numbers.Last();
+            return controlDigit == numbers.Last();
         }
 
-        private int CalculateSumControl(byte[] numbers, byte[] weights, int offset)
+        private int CalculateSumControl(byte[] numbers, byte[] weights)
         {
             int controlSum = 0;
+
             for (int i = 0; i < numbers.Length - 1; i++)
             {
-                controlSum += weights[i + offset] * numbers[i];
+                controlSum += numbers[i] * weights[i];
             }
 
             return controlSum;
