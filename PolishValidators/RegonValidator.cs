@@ -29,18 +29,26 @@ namespace Validators.Polish
 
         internal abstract class RegonValidatorBase : ValidatorBase
         {
+            protected RegonValidatorBase(byte[] weights) : base(weights)
+            {
+            }
+
             protected override int CheckControl(int sumControl) => sumControl % 11;
 
         }
 
         internal class Regon7or9Validator : RegonValidatorBase
         {
-            protected override byte[] Weights => new byte[] { 8, 9, 2, 3, 4, 5, 6, 7 };
+            public Regon7or9Validator() : base(new byte[] { 8, 9, 2, 3, 4, 5, 6, 7 })
+            {
+            }            
         }
 
         internal class Regon14Validator : RegonValidatorBase
         {
-            protected override byte[] Weights => new byte[] { 2, 4, 8, 5, 0, 9, 7, 3, 6, 1, 2, 4, 8 };
+            public Regon14Validator() : base(new byte[] { 2, 4, 8, 5, 0, 9, 7, 3, 6, 1, 2, 4, 8 })
+            {
+            }            
         }
     }
 

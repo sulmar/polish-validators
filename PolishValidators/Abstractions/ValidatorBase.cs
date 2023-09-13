@@ -5,10 +5,21 @@ namespace Validators.Abstractions
 {
     public abstract class ValidatorBase : IValidator
     {
-        protected abstract byte[] Weights { get; }
+        public ValidatorBase(byte[] weights)
+        {
+            this.Weights = weights;
+        }
+
+        protected byte[] Weights { get; private set;  }
+
         private int Length => Weights.Length + 1;
 
         protected abstract int CheckControl(int sumControl);
+
+        protected virtual int GetCRC(byte[] numbers)
+        {
+            return numbers.Last();
+        }
 
         private byte[] ToByteArray(string number) => number                                                    
                                                     .Select(c => byte.Parse(c.ToString()))
@@ -34,7 +45,7 @@ namespace Validators.Abstractions
 
             if (controlDigit == 10) controlDigit = 0;
 
-            return controlDigit == numbers.Last();
+            return controlDigit == GetCRC(numbers);
         }
 
         private int CalculateSumControl(byte[] numbers, byte[] weights)
