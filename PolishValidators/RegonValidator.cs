@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Validators.Abstractions;
 
 namespace Validators.Polish
@@ -14,18 +15,24 @@ namespace Validators.Polish
 
         internal class RegonValidatorFactory
         {
+            private static readonly Dictionary<int, RegonValidatorBase> _cache = new()
+            {
+                { 7, new Regon7or9Validator() },
+                { 9, new Regon7or9Validator() }, // ten sam obiekt współdzielony
+                { 14, new Regon14Validator() }
+            };
+
             public static RegonValidatorBase Create(int length)
             {
-                switch (length)
+                if (_cache.TryGetValue(length, out var validator))
                 {
-                    case 7:
-                    case 9:
-                        return new Regon7or9Validator();
-                    case 14: return new Regon14Validator();
-                    default: throw new NotSupportedException();
+                    return validator;
                 }
+
+                throw new NotSupportedException($"No validator for REGON of length {length}");
             }
         }
+
 
         internal abstract class RegonValidatorBase(byte[] weights) : ValidatorBase(weights)
         {
