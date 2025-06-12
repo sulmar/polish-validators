@@ -7,12 +7,7 @@ namespace PolishValidators.UnitTests
 {
     public class RegonValidatorTests
     {
-        private readonly IValidator validator;
-
-        public RegonValidatorTests()
-        {
-            validator = new RegonValidator();
-        }
+        private readonly IValidator validator= new RegonValidator();
 
         [Theory]
         [InlineData("365095696", true)]

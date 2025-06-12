@@ -7,10 +7,8 @@ namespace PolishValidators.UnitTests
 {
     public class NipValidatorTests
     {
-        private readonly IValidator validator;
-
-        public NipValidatorTests() => validator = new NipValidator();
-
+        private readonly IValidator validator = new NipValidator();
+        
         [Theory]
         [InlineData("3623981230", true)]
         [InlineData("9531204591", true)]

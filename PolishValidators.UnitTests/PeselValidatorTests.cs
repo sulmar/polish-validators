@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using Validators.Abstractions;
 using Validators.Polish;
 using Xunit;
@@ -9,12 +7,7 @@ namespace PolishValidators.UnitTests
 {
     public class PeselValidatorTests
     {
-        private readonly IValidator validator;
-
-        public PeselValidatorTests()
-        {
-            validator = new PeselValidator();
-        }
+        private readonly IValidator validator = new PeselValidator();
 
         [Theory]
         [InlineData("49040501580", true)]
