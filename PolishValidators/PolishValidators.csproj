@@ -12,6 +12,7 @@
     <RepositoryUrl>https://github.com/sulmar/polish-validators</RepositoryUrl>
     <PackageIcon>icon.png</PackageIcon>
     <PackageProjectUrl>https://github.com/sulmar/polish-validators</PackageProjectUrl>
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>

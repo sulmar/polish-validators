@@ -3,16 +3,9 @@ using System.Linq;
 
 namespace Validators.Abstractions
 {
-    public abstract class ValidatorBase : IValidator
+    public abstract class ValidatorBase(byte[] Weights) : IValidator
     {
-        public ValidatorBase(byte[] weights)
-        {
-            this.Weights = weights;
-        }
-
-        protected byte[] Weights { get; private set;  }
-
-        private int Length => Weights.Length + 1;
+        private int ExpectedLength => Weights.Length + 1;
 
         protected abstract int CheckControl(int sumControl);
 
@@ -27,37 +20,32 @@ namespace Validators.Abstractions
 
         public bool IsValid(string number)
         {
-            if (!number.All(char.IsDigit))
-            {
-                throw new FormatException($"Number must have only digits");
-            }
+            var digits = CleanAndValidate(number);
+            var controlSum = CalculateControlSum(digits);
+            var expectedControlDigit = NormalizeControlDigit(CheckControl(controlSum));
 
-            if (number.Length != Length)
-            {
-                throw new FormatException($"Number must have {Length} digits");
-            }
-
-            byte[] numbers = ToByteArray(number);
-
-            int controlSum = CalculateSumControl(numbers, Weights);
-
-            int controlDigit = CheckControl(controlSum);
-
-            if (controlDigit == 10) controlDigit = 0;
-
-            return controlDigit == GetCRC(numbers);
+            return expectedControlDigit == digits.Last();
         }
 
-        private int CalculateSumControl(byte[] numbers, byte[] weights)
+        protected virtual string Clean(string number) =>
+            number.Replace("-", "").Replace(" ", "");
+
+        private byte[] CleanAndValidate(string number)
         {
-            int controlSum = 0;
+            number = Clean(number);
+        
+            if (number.Length != ExpectedLength)
+                throw new FormatException($"Number must contain {ExpectedLength} digits.");
+        
+            if (!number.All(char.IsDigit))
+                throw new FormatException("Number must contain only digits.");
 
-            for (int i = 0; i < numbers.Length - 1; i++)
-            {
-                controlSum += numbers[i] * weights[i];
-            }
-
-            return controlSum;
+            return number.Select(digit => (byte) (digit - '0')).ToArray();
         }
+
+        private int CalculateControlSum(byte[] digits) =>
+            Weights.Zip(digits, (weight, digit) => weight * digit).Sum();
+    
+        private static int NormalizeControlDigit(int digit) => digit == 10 ? 0 : digit;
     }
 }

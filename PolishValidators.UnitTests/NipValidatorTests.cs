@@ -42,7 +42,7 @@ namespace PolishValidators.UnitTests
         {                        
             var exception = Assert.Throws<FormatException>(() => validator.IsValid(number));
             
-            Assert.Equal($"Number must have 10 digits", exception.Message);
+            Assert.Equal($"Number must contain 10 digits.", exception.Message);
             
         }
     }
