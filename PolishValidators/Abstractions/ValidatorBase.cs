@@ -9,14 +9,7 @@ namespace Validators.Abstractions
 
         protected abstract int CheckControl(int sumControl);
 
-        protected virtual int GetCRC(byte[] numbers)
-        {
-            return numbers.Last();
-        }
-
-        private byte[] ToByteArray(string number) => number                                                    
-                                                    .Select(c => byte.Parse(c.ToString()))
-                                                    .ToArray();
+        protected virtual int GetCRC(byte[] numbers) => numbers.Last();
 
         public bool IsValid(string number)
         {
@@ -27,7 +20,7 @@ namespace Validators.Abstractions
             return expectedControlDigit == digits.Last();
         }
 
-        protected virtual string Clean(string number) =>
+        protected string Clean(string number) =>
             number.Replace("-", "").Replace(" ", "");
 
         private byte[] CleanAndValidate(string number)
