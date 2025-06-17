@@ -7,28 +7,56 @@ namespace PolishValidators.UnitTests
 {
     public class NipValidatorTests
     {
-        private readonly IValidator validator = new NipValidator();
-        
-        [Theory]
-        [InlineData("3623981230", true)]
-        [InlineData("9531204591", true)]
-        [InlineData("9542223907", true)]
-        [InlineData("9542223901", false)]
-        [InlineData("5252438106", true)]
-        [InlineData("5851404935", true)]                
-        public void IsValid_ValidFormat_ReturnsStatus(string number, bool expected)
-        {
-            bool result = validator.IsValid(number);
+        public static TheoryData<string> ValidNips => new TheoryData<string>()
+            {
+                "6920000013",  // KGHM Polska MiedŸ S.A.
+                "7740001454",  // PKN ORLEN S.A.
+                "7010214485",  // PGE Polska Grupa Energetyczna S.A.
+                "5250000251",  // Polskie Koleje Pañstwowe S.A.
+                "7342867148",  // CD Projekt S.A.
+                "5252689593",  // Allegro.pl sp. z o.o.
+                "5260006841",  // Bank Pekao S.A.
+                "5261040828",  // G³ówny Urz¹d Statystyczny (GUS)
+                "5213017228",  // Zak³ad Ubezpieczeñ Spo³ecznych (ZUS)
+                "5260250274"   // Ministerstwo Finansów
+            };
 
-            Assert.Equal(expected, result);
+        public static TheoryData<string> InvalidNips => new TheoryData<string>()
+            {
+                "5920000013",  // KGHM Polska MiedŸ S.A.
+                "7640001454",  // PKN ORLEN S.A.
+                "5250000250",  // Polskie Koleje Pañstwowe S.A.
+                "7342867149",  // CD Projekt S.A.
+                "5252689503",  // Allegro.pl sp. z o.o.
+                "5260006851",  // Bank Pekao S.A.
+                "5261140828",  // G³ówny Urz¹d Statystyczny (GUS)
+                "5213117228",  // Zak³ad Ubezpieczeñ Spo³ecznych (ZUS)
+                "5260259274"   // Ministerstwo Finansów
+            };
+
+        private readonly IValidator validator = new NipValidator();
+
+        [Theory]
+        [MemberData(nameof(ValidNips))]
+        public void IsValid_Correct_ReturnsTrue(string nip)
+        {
+            Assert.True(validator.IsValid(nip));
         }
 
-        [Fact]
-        public void IsValid_InvalidFormat_ThrowsFormatException()
+        [Theory]
+        [MemberData(nameof(InvalidNips))]
+        public void IsIvalid_Incorrect_ReturnsFalse(string nip)
         {
-            Assert.Throws<FormatException>(() => validator.IsValid("954222390"));
-            Assert.Throws<FormatException>(() => validator.IsValid("9542223909999"));
-            Assert.Throws<FormatException>(() => validator.IsValid("AAA954222390"));
+            Assert.False(validator.IsValid(nip));
+        }
+
+        [Theory]
+        [InlineData("A920000013")]
+        [InlineData("092000001A")]
+        [InlineData("092000001a")]
+        public void IsValid_InvalidFormat_ThrowsFormatException(string nip)
+        {
+            Assert.Throws<FormatException>(() => validator.IsValid(nip));
         }
 
         [Theory]
@@ -37,11 +65,11 @@ namespace PolishValidators.UnitTests
         [InlineData("12345")]
         [InlineData("95312045911")]
         public void IsValid_InvalidLength_ThrowsFormatException(string number)
-        {                        
+        {
             var exception = Assert.Throws<FormatException>(() => validator.IsValid(number));
-            
+
             Assert.Equal($"Number must contain 10 digits.", exception.Message);
-            
+
         }
     }
 }
